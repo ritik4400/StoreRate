@@ -94,6 +94,47 @@ const getMyRatings = async (req, res) =>{
     }
 }
 
+const getRatingsForStore = async (req, res) =>{
+  try {
+    const ownerId = req.user.id;
+    const storeId = req.params.id;
+    // console.log(ownerId);
+    // console.log(storeId);
+    
+
+    const store = await Store.findOne({where:{id:storeId , owner_Id:ownerId}});
+    
+    if (!store) {
+      return res.status(403).json({ message: 'Unauthorized or store not found.' });
+    }
+    const ratings = await Rating.findAll({
+      where:{store_Id:storeId},
+      include:{
+        model:User,
+        attributes:['id' , 'name' , 'email'],
+      },
+    })
+
+    const avg = ratings.reduce((sum, rate) => sum+ rate.rating,0)/(ratings.length || 1);
+
+    res.status(200).json({
+      store:{
+        id:store.id,
+        name: store.name,
+        address: store.address,
+        averageRating: avg.toFixed(1),
+      },
+      ratings:ratings.map(rate =>({
+        id: rate.id,
+        rating: rate.rating,
+        user: rate.User,
+      })),
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+}
+
 module.exports = {
-  createRating, updateRating , getMyRatings
+  createRating, updateRating , getMyRatings , getRatingsForStore
 };
