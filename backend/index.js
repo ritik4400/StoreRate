@@ -4,11 +4,16 @@ const { connectDB , sequelize } = require('./src/config/db');
 const User = require('./src/models/user');
 const Store = require('./src/models/store');
 const Rating = require('./src/models/user');
+const authRoutes= require('./src/routes/authRoutes');
+
 const app = express()
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('Hello World Ready')
 })
+
+app.use('/auth', authRoutes);
 
 sequelize.sync()
   .then(() => console.log(' Database synced successfully'))
