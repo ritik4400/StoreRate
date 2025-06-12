@@ -7,6 +7,7 @@ const Rating = require('./src/models/rating');
 
 const authRoutes= require('./src/routes/authRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
+const storeRoutes = require('./src/routes/storeRoutes');
 
 const app = express()
 app.use(express.json());
@@ -17,10 +18,12 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
+app.use('/store', storeRoutes );
 
 sequelize.sync()
   .then(() => console.log(' Database synced successfully'))
   .catch(err => console.error(' Error syncing database:', err));
+  
 connectDB();
 const PORT = process.env.PORT || 3000;
 
