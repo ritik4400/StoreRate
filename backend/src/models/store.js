@@ -35,6 +35,6 @@ const Store = sequelize.define('Store' ,{
     timestamps: true,
 });
 
-Store.belongsTo(User, { foreignKey: 'owner_id' });
+// Store.belongsTo(User, { foreignKey: 'owner_id' });
 
 module.exports = Store;

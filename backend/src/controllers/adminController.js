@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const {User , Store ,Rating} = require("../index");
 const bcrypt = require("bcryptjs");
 const { Op } = require("sequelize");
 
@@ -102,9 +102,30 @@ const fetchAllUsers = async (req, res) => {
 
 };
 
+const getAdminMetrics = async (req,res) =>{
+  try {
+    const [totalUsers , totalStores , totalRatings] = await Promise.all([
+      User.count(),
+      Store.count(),
+      Rating.count()
+    ]);
+    res.status(200).json({
+      totalUsers,
+      totalStores,
+      totalRatings
+    });
+  } catch (error) {
+    console.error("Error in /admin/metrics:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+
+
 module.exports = {
   addUser,
   getAllUsers,
   getUserById,
-  fetchAllUsers
+  fetchAllUsers,
+  getAdminMetrics
 };

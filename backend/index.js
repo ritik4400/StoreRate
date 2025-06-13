@@ -1,9 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const { connectDB , sequelize } = require('./src/config/db');
-const User = require('./src/models/user');
-const Store = require('./src/models/store');
-const Rating = require('./src/models/rating');
+const {User , Store , Rating} = require('./src/index')
 
 const authRoutes= require('./src/routes/authRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');

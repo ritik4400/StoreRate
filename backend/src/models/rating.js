@@ -43,7 +43,7 @@ const Rating = sequelize.define(
   }
 );
 
-Rating.belongsTo(User, { foreignKey: 'user_id' });
-Rating.belongsTo(Store, { foreignKey: 'store_id' });
+// Rating.belongsTo(User, { foreignKey: 'user_id' });
+// Rating.belongsTo(Store, { foreignKey: 'store_id' });
 
 module.exports = Rating;
